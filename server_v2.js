@@ -10,7 +10,7 @@ const app = express();
 
 app.use((req, res, next) => {
   const allowedOrigins = [
-    "https://ihospitaljobs.com",
+    "https://studelp.pages.dev/",
     "https://localhost:3001",
   ];
   const origin = req.headers.origin;
