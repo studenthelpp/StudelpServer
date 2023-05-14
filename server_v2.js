@@ -263,46 +263,51 @@ app.post("/api/deletejob", async (req, res) => {
   }
 });
 
-// Get all jobs
-app.get("/api/getjobs", async (req, res) => {
+// Get all users
+app.get("/api/getusers", async (req, res) => {
   try {
     const { data, error } = await supabase
-      .from("jobs")
+      .from("users")
       .select(
-        "j_id, j_title, j_company, j_location, j_type, j_link, j_contact, j_salary"
+        "u_id, u_firstname, u_lastname, u_title, u_gender, u_email, u_phone, u_qualification, u_location"
       );
     if (error) throw error;
     if (data.length > 0) {
       res.send(data);
     } else {
-      res.status(404).send({ error: "No jobs found" });
+      res.status(404).send({ error: "No profile found" });
     }
   } catch (error) {
-    res.status(500).send({ error: "Unable to fetch jobs" });
+    res.status(500).send({ error: "Unable to fetch profiles" });
   }
 });
 
-// Get recent 10 jobs
-app.get("/api/getrecentjobs", async (req, res) => {
+// Get recent 10 users
+app.get("/api/getrecentusers", async (req, res) => {
   try {
     const { data, error } = await supabase
-      .from("jobs")
+      .from("users")
       .select(
-        "j_id, j_title, j_company, j_location, j_type, j_link, j_contact, j_salary"
+        "u_id, u_firstname, u_lastname, u_title, u_gender, u_email, u_phone, u_qualification, u_location"
       )
-      .order("j_date", { ascending: false })
+      .order("u_date", { ascending: false })
       .limit(10);
+
+    console.log("data: " + data);
+    console.log("data.data: " + data.data);
+
+    console.log("error: " + error);
 
     if (error) throw error;
 
     if (data.length > 0) {
       res.send(data);
     } else {
-      res.status(404).send({ error: "No jobs found" });
+      res.status(404).send({ error: "No profile found" });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).send({ error: "Unable to fetch jobs" });
+    res.status(500).send({ error: "Unable to fetch profiles" });
   }
 });
 
