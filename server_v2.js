@@ -247,6 +247,26 @@ app.post("/api/getuseruploadedjobs", async (req, res) => {
   }
 });
 
+// update click
+app.post("/api/updateclick", async (req, res) => {
+  const jobId = req.body.id;
+
+  const num = await supabase.from("users").select("u_click").eq("u_id", jobId);
+
+  const { data, error } = await supabase
+    .from("users")
+    .update({
+      u_click: num.data[0].u_click + 1,
+    })
+    .eq("u_id", jobId);
+
+  if (error) {
+    res.send({ error: error.message });
+  } else {
+    res.send({ message: "click ++" });
+  }
+});
+
 // Delete a job uploaded
 app.post("/api/deletejob", async (req, res) => {
   const jobId = req.body.jobId;
